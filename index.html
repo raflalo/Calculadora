@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora iPhone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+       @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap');
+    </style>
+</head>
+<body>
+    <!-- Container principal da calculadora -->
+    <div class="container-calculadora">
+        <!-- Display da calculadora -->
+        <div class="display">
+            <!-- Display superior para mostrar o histórico das operações -->
+            <div class="historico" id="historico"></div>
+            
+            <!-- Display principal para mostrar o número ou resultado atual -->
+            <div class="resultado" id="resultado">0</div>
+        </div>
+        
+        <!-- Grid de botões da calculadora -->
+        <div class="grid-botoes">
+            <!-- Primeira linha: Deletar, Limpar, Porcentagem, Dividir -->
+            <button class="botao botao-funcao" id="btn-deletar">⌫</button>
+            <button class="botao botao-funcao" id="btn-limpar">AC</button>
+            <button class="botao botao-funcao" id="btn-porcentagem">%</button>
+            <button class="botao botao-operador" id="btn-dividir">÷</button>
+            
+            <!-- Segunda linha: 7, 8, 9, Multiplicar -->
+            <button class="botao botao-numero" id="btn-7">7</button>
+            <button class="botao botao-numero" id="btn-8">8</button>
+            <button class="botao botao-numero" id="btn-9">9</button>
+            <button class="botao botao-operador" id="btn-multiplicar">×</button>
+            
+            <!-- Terceira linha: 4, 5, 6, Subtrair -->
+            <button class="botao botao-numero" id="btn-4">4</button>
+            <button class="botao botao-numero" id="btn-5">5</button>
+            <button class="botao botao-numero" id="btn-6">6</button>
+            <button class="botao botao-operador" id="btn-subtrair">−</button>
+            
+            <!-- Quarta linha: 1, 2, 3, Adicionar -->
+            <button class="botao botao-numero" id="btn-1">1</button>
+            <button class="botao botao-numero" id="btn-2">2</button>
+            <button class="botao botao-numero" id="btn-3">3</button>
+            <button class="botao botao-operador" id="btn-adicionar">+</button>
+            
+            <!-- Quinta linha: 0, Vírgula (ponto decimal), Igual -->
+            <button class="botao botao-numero botao-zero" id="btn-0">0</button>
+            <button class="botao botao-numero" id="btn-virgula">,</button>
+            <button class="botao botao-operador" id="btn-igual">=</button>
+        </div>
+    </div>
+    
+    <!-- Script da calculadora -->
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+/* ========================================
+   ESTILOS GERAIS DA CALCULADORA
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    font-family: "Inter", sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ========================================
+   CONTAINER PRINCIPAL DA CALCULADORA
+   ======================================== */
+
+.container-calculadora {
+    background-color: #1c1c1e;
+    border-radius: 40px;
+    padding: 16px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7);
+    width: 300px;
+    min-width: 300px;
+    max-width: 300px;
+}
+
+/* ========================================
+   DISPLAY DA CALCULADORA
+   ======================================== */
+
+.display {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: #1c1c1e;
+    border-radius: 15px;
+    padding: 5px;
+    margin: 40px 0 10px;
+    text-align: right;
+    min-height: 105px;
+    overflow: hidden;
+}
+
+.display::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(28, 28, 30, 1), rgba(28, 28, 30, 0));
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.display.fade-out::after {
+    opacity: 1;
+}
+
+/* Display do histórico (mostra as operações anteriores) */
+.historico {
+    color: #888;
+    font-size: 24px;
+    min-height: 24px;
+    margin-bottom: 5px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+/* Display do resultado (mostra o número ou resultado atual) */
+.resultado {
+    color: #fff;
+    font-size: 50px;
+    font-weight: 350;
+    white-space: nowrap;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    line-height: 1.2;
+}
+
+/* ========================================
+   GRID DE BOTÕES
+   ======================================== */
+
+.grid-botoes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+/* ========================================
+   ESTILOS DOS BOTÕES
+   ======================================== */
+
+.botao {
+    border: 1.2px solid transparent;
+    border-color: #8b86863e #ffa33926 #937e6d16 #aaa4a01a;
+    border-radius: 50%;
+    padding: 0;
+    width: 100%;
+    aspect-ratio: 1;
+    font-size: 26px;
+    font-family: "Inter", sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+/* Botão de números - cor cinza escuro */
+.botao-numero {
+    background-color: #333;
+    color: #fff;
+}
+
+.botao-numero:hover {
+    background-color: #555;
+    transform: scale(0.95);
+}
+
+.botao-numero:active {
+    background-color: #222;
+    transform: scale(0.9);
+}
+
+/* Botão para o número 0 - ocupa 2 colunas */
+.botao-zero {
+    grid-column: span 2;
+    border-radius: 50px;
+    aspect-ratio: auto;
+}
+
+/* Botões de função (AC e ⌫) - cor cinza mais claro */
+.botao-funcao {
+    background-color: #505050;
+    color: #fff;
+}
+
+.botao-funcao:hover {
+    background-color: #666;
+    transform: scale(0.95);
+}
+
+.botao-funcao:active {
+    background-color: #404040;
+    transform: scale(0.9);
+}
+
+/* Botões de operador (+, -, ×, ÷, %) - cor laranja */
+.botao-operador {
+    background-color: #ff9500;
+    color: #fff;
+    font-size: 32px;
+}
+
+.botao-operador:hover {
+    background-color: #ffb133;
+    transform: scale(0.95);
+}
+
+.botao-operador:active {
+    background-color: #e68400;
+    transform: scale(0.9);
+}
+
+.botao-igual:hover {
+    background-color: #ffb133;
+    transform: scale(0.95);
+}
+
+.botao-igual:active {
+    background-color: #e68400;
+    transform: scale(0.9);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+/* Estilos aplicados apenas se o JavaScript detectar smartphone ou tablet */
+body.dispositivo-movel {
+    background: #1c1c1e; /* Cor sólida de fundo do iPhone */
+    align-items: stretch; /* Garante que o container ocupe a altura total */
+}
+
+body.dispositivo-movel .container-calculadora {
+    width: 100vw;
+    height: 100dvh; /* Altura dinâmica para ignorar barras de navegadores móveis */
+    max-width: none;
+    min-width: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 20px;
+    /* Suporte para áreas seguras (Notch) */
+    padding-top: calc(20px + env(safe-area-inset-top));
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+}
+
+body.dispositivo-movel .display {
+    flex-grow: 1; /* O display cresce para empurrar os botões para baixo */
+    justify-content: flex-end;
+    margin: 0 0 20px 0;
+}
+
+body.dispositivo-movel .historico {
+    font-size: 20px;
+}
+
+body.dispositivo-movel .resultado {
+    font-size: 60px; /* Fonte maior no modo tela cheia */
+}
+
+body.dispositivo-movel .grid-botoes {
+    gap: 12px;
+    padding-bottom: 10px;
+}
+
+body.dispositivo-movel .botao {
+    font-size: 30px;
+}
