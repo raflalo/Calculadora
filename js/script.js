@@ -171,6 +171,11 @@ function adicionarOperador(operador) {
         return;
     }
 
+    // Se o número terminar com vírgula (ex: "6,"), remove-a antes de adicionar o operador
+    if (numeroAtual.endsWith(',')) {
+        numeroAtual = numeroAtual.slice(0, -1);
+    }
+
     // Adiciona o número atual e o operador à expressão
     apagarHistorico(); //apaga o histórico para evitar confusão
     expressao += numeroAtual + ' ' + operador + ' ';
@@ -250,6 +255,11 @@ function calcularResultado() {
     // Se não há expressão ou número atual, não faz nada
     if (expressao === '' || numeroAtual === '') {
         return;
+    }
+
+    // Se o número terminar com vírgula (ex: "0,"), remove-a antes de calcular e mostrar no histórico
+    if (numeroAtual.endsWith(',')) {
+        numeroAtual = numeroAtual.slice(0, -1);
     }
 
     try {
