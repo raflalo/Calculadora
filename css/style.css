@@ -21,7 +21,12 @@ body {
 /* não permitir zoom com toque duplo em dispositivos móveis para evitar problemas de layout e garantir que a calculadora seja exibida corretamente sem distorções. */
 
 html, body {
-  touch-action: manipulation;
+    overflow: hidden;
+    touch-action: none; /* Bloqueia gestos de toque nativos */
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 /* ========================================
