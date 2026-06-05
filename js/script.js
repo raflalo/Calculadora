@@ -115,7 +115,7 @@ function apagarHistorico() {
    ======================================== */
 function adicionarNumero(numero) {
     // Se é um novo número, reseta o número atual
-    if (novoNumero) {
+    if (novoNumero || numeroAtual.includes('%')) {
         // Se o primeiro dígito for uma vírgula, inicia como "0,"
         numeroAtual = (numero === ',') ? '0,' : numero;
         novoNumero = false;
@@ -193,13 +193,22 @@ function adicionarOperador(operador) {
    Descrição: Converte a expressão visual para expressão que o JavaScript entende
    ======================================== */
 function converterExpressao(expr) {
-    // Substitui os símbolos visuais pelos operadores JavaScript
     let expressaoConvertida = expr
         .replace(/,/g, '.')  // Converte vírgula em ponto para decimais
         .replace(/×/g, '*')
         .replace(/÷/g, '/')
         .replace(/−/g, '-');
     
+    // Trata porcentagens: substitui X% por (X/100), X%% por ((X/100)/100), etc.
+    expressaoConvertida = expressaoConvertida.replace(/(\d+\.?\d*)(%+)/g, (match, numero, porcentagens) => {
+        let contagem = porcentagens.length;
+        let resultado = numero;
+        for (let i = 0; i < contagem; i++) {
+            resultado = `(${resultado}/100)`;
+        }
+        return resultado;
+    });
+
     return expressaoConvertida;
 }
 
@@ -231,18 +240,23 @@ function formatarNumeroString(texto) {
         texto = texto.slice(1);
     }
 
-    let [parteInteira, parteDecimal] = texto.split(',');
+    // Separa os símbolos de porcentagem do final para não atrapalhar a formatação
+    let partesPorcentagem = texto.split(/%/);
+    let valorBase = partesPorcentagem[0];
+    let sufixoPorcentagem = '%'.repeat(partesPorcentagem.length - 1);
+
+    let [parteInteira, parteDecimal] = valorBase.split(',');
     parteInteira = parteInteira.replace(/\D/g, '');
     parteInteira = parteInteira.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-    return sinal + parteInteira + (parteDecimal !== undefined ? ',' + parteDecimal : '');
+    return sinal + parteInteira + (parteDecimal !== undefined ? ',' + parteDecimal : '') + sufixoPorcentagem;
 }
 
 function formatarExpressaoString(expressao) {
     return expressao
         .split(' ')
         .map((token) => {
-            return /^-?\d+(,\d+)?$/.test(token) ? formatarNumeroString(token) : token;
+            return /^-?\d+(,\d+)?%*$/.test(token) ? formatarNumeroString(token) : token;
         })
         .join(' ');
 }
@@ -253,7 +267,7 @@ function formatarExpressaoString(expressao) {
    ======================================== */
 function calcularResultado() {
     // Se não há expressão ou número atual, não faz nada
-    if (expressao === '' || numeroAtual === '') {
+    if (numeroAtual === '' || (expressao === '' && !numeroAtual.includes('%'))) {
         return;
     }
 
@@ -355,23 +369,17 @@ function limparTudo() {
    Descrição: Converte o número atual em porcentagem
    ======================================== */
 function calcularPorcentagem() {
-    if (numeroAtual === '' || numeroAtual === '-') {
+    if (numeroAtual === '' || numeroAtual === '-' || numeroAtual === '0') {
         return;
     }
 
-    let numero = parseFloat(numeroAtual.replace(',', '.'));
-
-    if (expressao === '') {
-        // Se não há expressão, transforma o número em porcentagem (divide por 100)
-        numero = numero / 100;
-    } else {
-        // Se há expressão, calcula a porcentagem baseado no primeiro número da expressão
-        // Extrai o primeiro número da expressão
-        let primeiroNumero = parseFloat(expressao.split(' ')[0].replace(',', '.'));
-        numero = (primeiroNumero * numero) / 100;
+    // Se o número terminar com vírgula, remove antes de adicionar %
+    if (numeroAtual.endsWith(',')) {
+        numeroAtual = numeroAtual.slice(0, -1);
     }
 
-    numeroAtual = formatarNumero(numero);
+    numeroAtual += '%';
+    novoNumero = false; // Permite continuar adicionando % ao mesmo número
     atualizarDisplay();
 }
 
