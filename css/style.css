@@ -139,20 +139,14 @@ html, body {
     user-select: none;
 }
 
+/* ==========================================================================
+   1. ESTILOS PADRÃO (Cores iniciais dos botões)
+   ========================================================================== */
+
 /* Botão de números - cor cinza escuro */
 .botao-numero {
     background-color: #333;
     color: #fff;
-}
-
-.botao-numero:hover {
-    background-color: #555;
-    transform: scale(0.95);
-}
-
-.botao-numero:active {
-    background-color: #222;
-    transform: scale(0.9);
 }
 
 /* Botão para o número 0 - ocupa 2 colunas */
@@ -168,16 +162,6 @@ html, body {
     color: #fff;
 }
 
-.botao-funcao:hover {
-    background-color: #666;
-    transform: scale(0.95);
-}
-
-.botao-funcao:active {
-    background-color: #404040;
-    transform: scale(0.9);
-}
-
 /* Botões de operador (+, -, ×, ÷, %) - cor laranja */
 .botao-operador {
     background-color: #ff9500;
@@ -185,25 +169,46 @@ html, body {
     font-size: 32px;
 }
 
-.botao-operador:hover {
-    background-color: #ffb133;
-    transform: scale(0.95);
+
+/* ==========================================================================
+   2. COMPUTADOR - Efeitos de passar o mouse (Hover)
+   ========================================================================== */
+@media (hover: hover) {
+    .botao-numero:hover {
+        background-color: #555;
+        transform: scale(0.95);
+    }
+
+    .botao-funcao:hover {
+        background-color: #666;
+        transform: scale(0.95);
+    }
+
+    .botao-operador:hover, .botao-igual:hover {
+        background-color: #ffb133;
+        transform: scale(0.95);
+    }
 }
 
-.botao-operador:active {
+
+/* ==========================================================================
+   3. CELULAR E CLIQUE - Efeito no momento exato do toque/clique (Active)
+   ========================================================================== */
+.botao-numero:active {
+    background-color: #222;
+    transform: scale(0.9);
+}
+
+.botao-funcao:active {
+    background-color: #404040;
+    transform: scale(0.9);
+}
+
+.botao-operador:active, .botao-igual:active {
     background-color: #e68400;
     transform: scale(0.9);
 }
 
-.botao-igual:hover {
-    background-color: #ffb133;
-    transform: scale(0.95);
-}
-
-.botao-igual:active {
-    background-color: #e68400;
-    transform: scale(0.9);
-}
 
 /* ========================================
    RESPONSIVIDADE

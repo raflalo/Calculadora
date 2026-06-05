@@ -423,28 +423,26 @@ window.addEventListener('resize', ajustarTamanhoFonte);
 
 // Bloqueia gestos de zoom e scroll para melhorar a experiência em dispositivos móveis
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Bloqueia o zoom por pinça (dois dedos)
+    // 1. Bloqueia o zoom por pinça e o scroll (arrastar a tela)
     document.addEventListener('touchmove', (event) => {
-        if (event.touches.length > 1) {
+        if (event.touches.length > 1 || event.touches.length === 1) {
             event.preventDefault();
         }
     }, { passive: false });
 
-    // 2. Bloqueia o scroll de arrastar o dedo (um dedo)
-    document.addEventListener('touchmove', (event) => {
-        if (event.touches.length === 1) {
-            event.preventDefault();
-        }
-    }, { passive: false });
-
-    // 3. Bloqueia o zoom por toque duplo (double-tap)
+    // 2. Bloqueia o zoom por toque duplo APENAS fora dos botões da calculadora
     let lastTouchEnd = 0;
     document.addEventListener('touchend', (event) => {
         const now = new Date().getTime();
         if (now - lastTouchEnd <= 300) {
-            event.preventDefault();
+            // Se o usuário tocou em um botão, NÃO bloqueia o clique rápido
+            if (event.target.tagName === 'BUTTON' || event.target.closest('button')) {
+                return; 
+            }
+            event.preventDefault(); // Bloqueia o zoom apenas se tocar no fundo da página
         }
         lastTouchEnd = now;
     }, false);
 });
+
 
