@@ -342,32 +342,50 @@ function calcularPorcentagem() {
    CONFIGURAÇÃO DOS LISTENERS DOS BOTÕES
    ======================================== */
 
-// Botões de números (0-9)
-document.getElementById('btn-0').addEventListener('click', () => adicionarNumero('0'));
-document.getElementById('btn-1').addEventListener('click', () => adicionarNumero('1'));
-document.getElementById('btn-2').addEventListener('click', () => adicionarNumero('2'));
-document.getElementById('btn-3').addEventListener('click', () => adicionarNumero('3'));
-document.getElementById('btn-4').addEventListener('click', () => adicionarNumero('4'));
-document.getElementById('btn-5').addEventListener('click', () => adicionarNumero('5'));
-document.getElementById('btn-6').addEventListener('click', () => adicionarNumero('6'));
-document.getElementById('btn-7').addEventListener('click', () => adicionarNumero('7'));
-document.getElementById('btn-8').addEventListener('click', () => adicionarNumero('8'));
-document.getElementById('btn-9').addEventListener('click', () => adicionarNumero('9'));
+const configurarBotoes = () => {
+    const mapeamento = {
+        'btn-0': () => adicionarNumero('0'),
+        'btn-1': () => adicionarNumero('1'),
+        'btn-2': () => adicionarNumero('2'),
+        'btn-3': () => adicionarNumero('3'),
+        'btn-4': () => adicionarNumero('4'),
+        'btn-5': () => adicionarNumero('5'),
+        'btn-6': () => adicionarNumero('6'),
+        'btn-7': () => adicionarNumero('7'),
+        'btn-8': () => adicionarNumero('8'),
+        'btn-9': () => adicionarNumero('9'),
+        'btn-virgula': () => adicionarNumero(','),
+        'btn-adicionar': () => adicionarOperador('+'),
+        'btn-subtrair': () => adicionarOperador('−'),
+        'btn-multiplicar': () => adicionarOperador('×'),
+        'btn-dividir': () => adicionarOperador('÷'),
+        'btn-igual': calcularResultado,
+        'btn-deletar': deletarUltimoDígito,
+        'btn-limpar': limparTudo,
+        'btn-porcentagem': calcularPorcentagem
+    };
 
-// Botão de vírgula (ponto decimal)
-document.getElementById('btn-virgula').addEventListener('click', () => adicionarNumero(','));
+    Object.entries(mapeamento).forEach(([id, callback]) => {
+        const botao = document.getElementById(id);
+        if (!botao) return;
 
-// Botões de operadores
-document.getElementById('btn-adicionar').addEventListener('click', () => adicionarOperador('+'));
-document.getElementById('btn-subtrair').addEventListener('click', () => adicionarOperador('−'));
-document.getElementById('btn-multiplicar').addEventListener('click', () => adicionarOperador('×'));
-document.getElementById('btn-dividir').addEventListener('click', () => adicionarOperador('÷'));
+        // Usamos 'pointerdown' para disparar a ação imediatamente ao tocar/clicar.
+        // Isso resolve o bug onde pequenos deslizes cancelavam o evento 'click'.
+        botao.addEventListener('pointerdown', (e) => {
+            e.preventDefault(); // Evita comportamento de scroll e o evento 'click' posterior
+            botao.classList.add('ativo'); // Ativa o feedback visual
+            callback();
+        });
 
-// Botões de função
-document.getElementById('btn-igual').addEventListener('click', calcularResultado);
-document.getElementById('btn-deletar').addEventListener('click', deletarUltimoDígito);
-document.getElementById('btn-limpar').addEventListener('click', limparTudo);
-document.getElementById('btn-porcentagem').addEventListener('click', calcularPorcentagem);
+        // Remove o feedback visual ao soltar ou sair do botão
+        const removerAtivo = () => botao.classList.remove('ativo');
+        ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => 
+            botao.addEventListener(ev, removerAtivo)
+        );
+    });
+};
+
+configurarBotoes();
 
 /* ========================================
    SUPORTE A TECLADO
@@ -444,5 +462,3 @@ document.addEventListener('DOMContentLoaded', () => {
         lastTouchEnd = now;
     }, false);
 });
-
-

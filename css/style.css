@@ -194,17 +194,17 @@ html, body {
 /* ==========================================================================
    3. CELULAR E CLIQUE - Efeito no momento exato do toque/clique (Active)
    ========================================================================== */
-.botao-numero:active {
+.botao-numero:active, .botao-numero.ativo {
     background-color: #222;
     transform: scale(0.9);
 }
 
-.botao-funcao:active {
+.botao-funcao:active, .botao-funcao.ativo {
     background-color: #404040;
     transform: scale(0.9);
 }
 
-.botao-operador:active, .botao-igual:active {
+.botao-operador:active, .botao-operador.ativo, .botao-igual:active, .botao-igual.ativo {
     background-color: #e68400;
     transform: scale(0.9);
 }
