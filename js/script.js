@@ -419,3 +419,32 @@ document.addEventListener('DOMContentLoaded', () => {
     ajustarTamanhoFonte();
 });
 window.addEventListener('resize', ajustarTamanhoFonte);
+
+
+// Bloqueia gestos de zoom e scroll para melhorar a experiência em dispositivos móveis
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Bloqueia o zoom por pinça (dois dedos)
+    document.addEventListener('touchmove', (event) => {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    // 2. Bloqueia o scroll de arrastar o dedo (um dedo)
+    document.addEventListener('touchmove', (event) => {
+        if (event.touches.length === 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    // 3. Bloqueia o zoom por toque duplo (double-tap)
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (event) => {
+        const now = new Date().getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+});
+

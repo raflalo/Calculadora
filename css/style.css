@@ -23,10 +23,13 @@ body {
 html, body {
     overflow: hidden;
     touch-action: none; /* Bloqueia gestos de toque nativos */
-    height: 100%;
+    position: fixed; /* Força o body a ficar fixado na viewport */
+    top: 0;
+    left: 0;
     width: 100%;
-    margin: 0;
-    padding: 0;
+    height: 100%;
+    -webkit-overflow-scrolling: none; /* Desativa scroll acelerado do iOS */
+    user-select: none; /* Opcional: impede seleção de texto ao tocar */
 }
 
 /* ========================================
