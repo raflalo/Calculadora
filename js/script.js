@@ -116,7 +116,8 @@ function apagarHistorico() {
 function adicionarNumero(numero) {
     // Se é um novo número, reseta o número atual
     if (novoNumero) {
-        numeroAtual = numero;
+        // Se o primeiro dígito for uma vírgula, inicia como "0,"
+        numeroAtual = (numero === ',') ? '0,' : numero;
         novoNumero = false;
     } else {
         // Se o número atual é 0 e não tem vírgula, substitui por novo número
@@ -125,6 +126,9 @@ function adicionarNumero(numero) {
         } else if (numero === ',' && numeroAtual.includes(',')) {
             // Evita adicionar múltiplas vírgulas
             return;
+        } else if (numero === ',' && numeroAtual === '-') {
+            // Se digitar vírgula após o sinal de menos, transforma em "-0,"
+            numeroAtual = '-0,';
         } else {
             numeroAtual += numero;
         }
@@ -139,6 +143,29 @@ function adicionarNumero(numero) {
    Parâmetro: operador - o operador clicado (+, -, ×, ÷, %)
    ======================================== */
 function adicionarOperador(operador) {
+    // Permite usar o sinal de menos para iniciar um número negativo
+    if ((numeroAtual === '' || numeroAtual === '0') && operador === '−') {
+        numeroAtual = '-';
+        novoNumero = false;
+        atualizarDisplay();
+        return;
+    }
+
+    // Evita adicionar um operador se o usuário digitou apenas o sinal de menos "-"
+    if (numeroAtual === '-') {
+        return;
+    }
+
+    // Se o número atual está vazio e já temos uma expressão, 
+    // permite trocar o operador anterior sem precisar apagar
+    if (numeroAtual === '' && expressao !== '') {
+        // Remove o operador antigo (os últimos 3 caracteres: " op ") e coloca o novo
+        expressao = expressao.slice(0, -3) + ' ' + operador + ' ';
+        ultimoOperador = operador;
+        atualizarDisplay();
+        return;
+    }
+
     // Evita adicionar operador se o número atual é vazio
     if (numeroAtual === '') {
         return;
@@ -318,7 +345,7 @@ function limparTudo() {
    Descrição: Converte o número atual em porcentagem
    ======================================== */
 function calcularPorcentagem() {
-    if (numeroAtual === '') {
+    if (numeroAtual === '' || numeroAtual === '-') {
         return;
     }
 
