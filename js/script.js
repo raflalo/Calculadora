@@ -455,6 +455,8 @@ document.addEventListener('keydown', (evento) => {
     } else if (evento.key === '/') {
         evento.preventDefault(); // Evita buscar no navegador
         adicionarOperador('÷');
+    } else if (evento.key === '%') {
+        calcularPorcentagem();
     }
     // Igual
     else if (evento.key === 'Enter' || evento.key === '=') {
